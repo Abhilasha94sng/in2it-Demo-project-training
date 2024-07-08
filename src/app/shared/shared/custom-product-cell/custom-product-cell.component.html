@@ -1,0 +1,5 @@
+<i-feather *ngIf="!isEditing" name="edit" (click)="edit()"></i-feather>
+<i-feather *ngIf="isEditing" style="color: green;" class="m-1" name="check-circle" (click)="save()"></i-feather>
+<i-feather *ngIf="!isEditing"  name="trash2" (click)="delete()"></i-feather>
+<i-feather *ngIf="isEditing" style="color: red;" class="m-1" name="x-circle" (click)="cancel()">
+</i-feather>

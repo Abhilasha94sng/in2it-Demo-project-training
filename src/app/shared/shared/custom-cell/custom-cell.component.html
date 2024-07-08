@@ -1,0 +1,7 @@
+<i-feather *ngIf="this.params.context.parent=='task'" name="edit" (click)="edit()"></i-feather>
+<i-feather *ngIf="this.params.context.parent=='task'" name="trash2" (click)="delete()"></i-feather>
+<p *ngIf="this.params.context.parent=='organization'" (click)="openewTab()">{{params.data.organizationName}}</p>
+<p *ngIf="this.params.context.parent=='child'" (click)="openCard()">{{params.data.name}}</p>
+<p *ngIf="this.params.context.parent=='contact' && fieldName=='organizationName'" (click)="cellActions()">{{params.data.organizationName}}</p>
+<p *ngIf="this.params.context.parent=='contact' && fieldName=='name'" (click)="cellActions()">{{params.data.name}}</p>
+

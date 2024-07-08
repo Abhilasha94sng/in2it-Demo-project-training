@@ -1,0 +1,9 @@
+
+  <ag-grid-angular
+class="ag-theme-alpine"
+style="height: 725px;"
+[rowData]="orgData"
+[columnDefs]="colDefs"
+[defaultColDef]="defaultColDef"
+(gridReady)="onGridReady($event)"(cellClicked)="onCellClicked($event)">
+</ag-grid-angular>

@@ -1,0 +1,67 @@
+<!-- <ag-grid-angular
+class="ag-theme-alpine"
+style="height: 725px;"
+[rowData]="rowData"
+[columnDefs]="columnDefs"
+[defaultColDef]="defaultColDef"
+(gridReady)="onGridReady($event)"
+rowSelection="multiple"
+(rowSelected)="deleteSelectedRow()"
+[gridOptions]="gridOption"
+
+>
+</ag-grid-angular> -->
+<!-- <div [ngClass]="showCard ? 'row' : ''">
+  <div [ngClass]="showCard ? 'col-lg-9' : ''">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      style="height: 725px"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      (gridReady)="onGridReady($event)"
+      rowSelection="multiple"
+      (rowSelected)="deleteSelectedRow()"
+      [gridOptions]="gridOption"
+    >
+    </ag-grid-angular>
+  </div>
+  <div [ngClass]="showCard ? 'col-lg-3' : 'hide'">
+    <ul>
+        <div class="d-flex" *ngFor="let column of columnDefs" [class.hide]="column.hide">
+            <li>{{ column.headerName }}</li>
+            <i-feather 
+            [name]="getIconName(column)" 
+            (click)="toggleColumn(column)"
+          ></i-feather>
+        </div>
+      </ul>
+  </div>
+</div> -->
+<div style="position: relative;">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      style="height: 725px; width: 100%;"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      (gridReady)="onGridReady($event)"
+      rowSelection="multiple"
+      (rowSelected)="deleteSelectedRow()"
+      [gridOptions]="gridOption"
+    >
+    </ag-grid-angular>
+  
+    <!-- Overlay UL -->
+    <div class="overlay" *ngIf="showCard">
+      <ul>
+        <div class="d-flex" *ngFor="let column of columnDefs" [class.hide]="column.hide">
+          <li>{{ column.headerName }}</li>
+          <i-feather 
+            [name]="getIconName(column)" 
+            (click)="toggleColumn(column)"
+          ></i-feather>
+        </div>
+      </ul>
+    </div>
+  </div>

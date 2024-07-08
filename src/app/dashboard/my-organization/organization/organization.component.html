@@ -1,0 +1,165 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""><span style="cursor: pointer" class="navbar-text text-dark"><i-feather name="plus-circle"></i-feather> New
+   </span>
+ 
+      </a>
+    <!-- <span style="cursor: pointer;" class="navbar-text"><i-feather name="plus-circle"></i-feather> New</span> -->
+
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span style="cursor: pointer" class="navbar-text text-secondary"
+        ><i-feather name="briefcase"></i-feather> Add to Marketing List</span
+      ></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span style="cursor: pointer" class="navbar-text text-secondary"
+        ><i-feather name="share-2"></i-feather> Share</span
+      ></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span style="cursor: pointer" class="navbar-text text-secondary"
+        ><i-feather name="download"></i-feather> Import</span
+      ></a
+    >
+  </li>
+</ul>
+<div class="py-3">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li *ngFor="let data of navs; let i = index" [ngbNavItem]="data.id">
+      <a ngbNavLink>
+        {{ data.organizationName }}
+        <span
+          *ngIf="i > 0"
+          class="btn-close ms-3 fw-light"
+          (click)="i > 0 ? close($event, i) : ''"
+        ></span>
+      </a>
+      <ng-template *ngIf="i === 0; elseBlock" ngbNavContent>
+        <div class="row flex-nowrap">
+          <div
+            class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light min-vh-100"
+          >
+            <div
+              class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2"
+            >
+              <ul
+                class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start align-items-sm-start"
+                id="menu"
+              >
+                <li class="nav-item">
+                  <span class="ms-1 d-none d-sm-inline"><h5>Lists</h5></span>
+                </li>
+                <li class="nav-item">
+                  <a
+                    style="cursor: pointer"
+                    (click)="filterOrgData('All')"
+                    class="nav-link align-middle px-0 black-color"
+                  >
+                    All Organizations
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    style="cursor: pointer"
+                    (click)="filterOrgData('Customer')"
+                    class="nav-link align-middle px-0 black-color"
+                  >
+                    <span class="ms-1 d-none d-sm-inline"> Customers</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    style="cursor: pointer"
+                    (click)="filterOrgData('Non Customer')"
+                    class="nav-link align-middle px-0 black-color"
+                  >
+                    <span class="ms-1 d-none d-sm-inline"> Non Customers</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <nav class="navbar navbar-inverse">
+              <div class="container-fluid d-flex justify-content-between">
+                <div class="navbar-header">
+                  <a class="nav-link">
+                    <span style="cursor: pointer" class="navbar-text text-dark">
+                      {{
+                        organizationType === "All"
+                          ? "All Organizations List"
+                          : organizationType === "Customer"
+                          ? "Customers"
+                          : "Non Customers"
+                      }}
+                    </span>
+                  </a>
+                </div>
+
+                <form class="d-flex">
+                  <input
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+                  <button class="btn btn-outline-primary" type="submit">
+                    Search
+                  </button>
+                </form>
+              </div>
+            </nav>
+            <!-- <div class="container-fluid mt-3 table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Organization Name</th>
+                    <th>Type</th>
+                    <th>Industry</th>
+                    <th>Onboarding</th>
+                    <th>Related Orgs</th>
+                    <th>Products</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let org of showTable">
+                    <td (click)="add( org)">
+                     <a href (click)="(false)"> {{ org.organizationName }}</a>
+                    </td>
+                    <td>{{ org.type }}</td>
+                    <td>{{ org.industry }}</td>
+                    <td>{{ org.onboarding }}</td>
+                    <td>{{org.relatedOrgs}}</td>
+                    <td>{{ org.products }}</td>
+                    <td>{{ org.email }}</td>
+                    <td>{{ org.phone }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+            <app-ag-grid-angular  [rowData]="rowData"
+            [columnDefs]="colDefs" [gridOption]="gridOption"></app-ag-grid-angular>
+          </div>
+        </div>
+        <!-- <app-child-organization *ngIf=data.id [organization]="selectedOrganization"></app-child-organization>  -->
+      </ng-template>
+      <ng-template #else ngbNavContent>
+        <app-child-organization [organization]="data"></app-child-organization>
+      </ng-template>
+    </li>
+
+    <!-- <li class="nav-item" role="presentation">
+      <button type="button" class="nav-link" (click)="add($event,)">...</button>
+    </li> -->
+  </ul>
+</div>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
+

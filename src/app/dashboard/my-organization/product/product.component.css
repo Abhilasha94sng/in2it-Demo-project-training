@@ -1,0 +1,29 @@
+.content {
+    background-color: white;
+
+}
+/* .conntainer-fluid{
+    background-color: aliceblue;
+} */
+
+.disabled-row {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .ag-row.ag-row-first {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* .btn:hover {
+    background-color: rgb(80, 80, 248);
+  } */
+  .card{
+    height: 200px;
+    width: 500px;
+    display: flex;
+  }
+  .hide{
+    display: none;
+}

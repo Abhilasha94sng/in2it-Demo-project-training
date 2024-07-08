@@ -1,0 +1,40 @@
+<div class="conntainer-fluid m-4">
+  <div class="content">
+    <div class="d-flex justify-content-between">
+      <h3>Product Table List</h3>
+      <div class="d-flex align-items-center">
+        <input
+          class="form-control me-2"
+          type="search"
+          name="searchText"
+          placeholder="Search by name"
+          aria-label="Search"
+        />
+        <button class="btn btn-primary" type="button">
+            <i-feather
+              (click)="toggleCard()"
+              name="settings"
+           
+            >
+        </i-feather>
+          </button>
+      </div>
+    </div>
+  </div>
+  <app-ag-grid-angular
+  [rowData]="rowData"
+  [columnDefs]="colDefs"
+  [gridOption]="gridOption"
+  [showCard]="showCard"
+></app-ag-grid-angular>
+  <div class="d-flex justify-content-between mt-3">
+    <button class="btn btn-outline-primary" type="button">Cancel</button>
+    <button
+      class="btn btn-outline-primary"
+      type="button"
+      (click)="redirectTo()"
+    >
+      Add to List
+    </button>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+  <div>
+    <input *ngIf="params?.context?.parentComponent?.editingRowIds?.includes(params.data.
+    table_id?.value
+    )"
+           type="text"
+           [(ngModel)]="params.data.table_name.value">
+    <span *ngIf="!params?.context?.parentComponent?.editingRowIds?.includes(params?.data?.table_id?.value)">
+      {{params?.data?.table_name?.value}}
+    </span>
+  </div>

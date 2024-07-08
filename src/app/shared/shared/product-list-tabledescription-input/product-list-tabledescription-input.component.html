@@ -1,0 +1,16 @@
+<!-- <div>
+    <input *ngIf="params.context.parentComponent.editingRowId === params.data.tableId"
+           type="text"
+           [(ngModel)]="params.data.tableDescription">
+    <span *ngIf="params.context.parentComponent.editingRowId !== params.data.tableId">
+      {{params.data.tableDescription}}
+    </span>
+  </div> -->
+<div>
+  <input *ngIf="params?.context?.parentComponent?.editingRowIds?.includes(params?.data?.table_id?.value)"
+         type="text"
+         [(ngModel)]="params.data.description.value">
+  <span *ngIf="!params?.context?.parentComponent?.editingRowIds?.includes(params?.data?.table_id?.value)">
+    {{params?.data?.description?.value}}
+  </span>
+</div>

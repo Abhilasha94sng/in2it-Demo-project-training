@@ -1,0 +1,29 @@
+.sidenav {
+    height: 100%;
+    width: 250px; /* Adjust as needed */
+    position: fixed;
+    z-index: -1;
+    top: 56px;
+    left: 12px;
+    background-color: #f8f9fa; /* Change background color as needed */
+    padding-top: 20px;
+  }
+
+  .sidenav a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #000; /* Change text color as needed */
+    display: block;
+  }
+
+  .sidenav a:hover {
+    background-color: #ddd; /* Change background color on hover as needed */
+  }
+
+  .black-color{
+     color: #000;
+  }
+  .col{
+    padding: 0px !important;
+  }

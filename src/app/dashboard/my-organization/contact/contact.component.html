@@ -1,0 +1,516 @@
+<ul class="nav nav-pills">
+  <li ngbDropdown class="nav-item">
+    <a
+      href
+      (click)="(false)"
+      class="nav-link px-3 text-secondary bg-white"
+      ngbDropdownToggle
+    >
+      <i-feather name="plus"></i-feather> Add New
+    </a>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem (click)="openCard()">Single Contact</button>
+      <div class="dropdown-divider"></div>
+      <button ngbDropdownItem>Bulk Upload</button>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span
+        [ngClass]="{ disabled: selectCount !== 1 }"
+        style="cursor: pointer"
+        class="navbar-text text-secondary"
+        ><i-feather name="edit" (click)="editContact()"></i-feather> Edit</span
+      ></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span
+        style="cursor: pointer"
+        class="navbar-text text-secondary"
+      (click)="deleteSelectedContacts($event)"
+        ><i-feather name="delete"></i-feather> Delete</span
+      ></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span style="cursor: pointer" class="navbar-text text-secondary"
+        ><i-feather name="share-2"></i-feather> Share</span
+      ></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]=""
+      ><span style="cursor: pointer" class="navbar-text text-secondary"
+        ><i-feather name="download"></i-feather> Import</span
+      ></a
+    >
+  </li>
+</ul>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div>
+    <div class="row flex-nowrap">
+      <div
+        class="sidenav col-auto col-md-3 col-xl-2 px-0 bg-light"
+        style="min-height: 100vh"
+      >
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              (click)="(false)"
+              style="cursor: pointer; background-color: white; color: black"
+              >Directory pages</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              (click)="filterOrgData('All')"
+              style="cursor: pointer"
+              [ngClass]="{ selected: organizationName === 'All' }"
+            >
+              All Contacts ({{ count }})</a
+            >
+          </li>
+          <li class="nav-item" *ngFor="let org of orgService.orgData">
+            <a
+              class="nav-link"
+              (click)="filterOrgData(org.organizationName)"
+              style="cursor: pointer"
+              aria-current="page"
+              [ngClass]="{
+                selected: organizationName === org.organizationName
+              }"
+              >{{ org.organizationName }} ({{ org.contact.length }})</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid d-flex justify-content-between">
+            <div class="navbar-header">
+              <a class="nav-link">
+                <span style="cursor: pointer" class="navbar-text text-dark">
+                  {{ organizationName === "All" ? "All Contact List" : "" }}
+                </span>
+              </a>
+            </div>
+
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                name="searchText"
+                [(ngModel)]="searchText"
+                (input)="search()"
+                placeholder="Search by name"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-primary" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </nav>
+        <div [ngClass]="showCard ? 'row' : ''">
+          <div [ngClass]="showCard ? 'col-lg-9' : ''">
+            <app-ag-grid-angular  [rowData]="rowData"
+            [columnDefs]="colDefs" [gridOption]="gridOption"  (deleteRow)="selectedRow($event
+
+            )" ></app-ag-grid-angular>
+
+          </div>
+
+          <div [ngClass]="showCard ? 'col-lg-3' : 'hide'">
+            <div *ngIf="viewCard === true">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card" style="width: 18rem">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="card-title">
+                          Name :{{ selectedContact?.name }}
+                        </h5>
+                        <span
+                          style="cursor: pointer"
+                          class="navbar-text text-secondary"
+                          ><i-feather
+                            name="edit"
+                            (click)="editContact()"
+                          ></i-feather
+                        ></span>
+                      </div>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        Phone Number:{{ selectedContact?.phone }}
+                      </h6>
+                      <p class="card-text">Role: {{ selectedContact?.role }}</p>
+                      <p class="card-text">
+                        Email: {{ selectedContact?.email }}
+                      </p>
+                      <p class="card-text">
+                        Additional Role: {{ selectedContact?.additionalrole }}
+                      </p>
+
+                      <a class="btn btn-secondary" (click)="closeCard()"
+                        >Close</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="viewForm === true">
+              <div class="d-flex justify-content-between">
+                <h5>{{ editMode ? "Edit Contact" : "Add New Contact" }}</h5>
+                <a>Bulk Upload</a>
+              </div>
+              <div class="d-flex">
+                <form [formGroup]="contactForm">
+                  <div class="row mb-3">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-sm-2 col-form-label"
+                        >Name
+                      </label>
+                    </div>
+                    <div class="col">
+                      <input
+                        formControlName="firstName"
+                        type="text"
+                        class="form-control"
+                        placeholder="First name"
+                      />
+                      <mat-error
+                        *ngIf="
+                          contactForm.get('firstName')?.hasError('required') &&
+                          contactForm.get('firstName')?.touched
+                        "
+                        >First name is required</mat-error
+                      >
+                      <mat-error *ngIf="contactForm.hasError('maxLength')"
+                        >Max 12 characters are allowed</mat-error
+                      >
+                    </div>
+                    <div class="col">
+                      <input
+                        formControlName="lastName"
+                        type="text"
+                        class="form-control"
+                        placeholder="Last name"
+                      />
+                      <mat-error
+                        *ngIf="
+                          contactForm.get('lastName')?.hasError('required') &&
+                          contactForm.get('lastName')?.touched
+                        "
+                        >Last name is required</mat-error
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label"
+                      >Organization:</label
+                    >
+                    <div class="col-sm-8">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        formControlName="organizationName"
+                      >
+                        <option selected>select</option>
+                        <ng-container *ngFor="let org of showTable">
+                          <option [value]="org.organizationName">
+                            {{ org.organizationName }}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <mat-error
+                        *ngIf="
+                          contactForm
+                            .get('organization')
+                            ?.hasError('required') &&
+                          contactForm.get('organization')?.touched
+                        "
+                        >organization is required</mat-error
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-sm-2 col-form-label mt-4">Email:</label>
+                    <div class="col-sm-6 mt-4">
+                      <input
+                        formControlName="email"
+                        type="email"
+                        class="form-control"
+                        placeholder="Enter Email"
+                      />
+                      <mat-error
+                        *ngIf="
+                          contactForm.get('email')?.hasError('required') &&
+                          contactForm.get('email')?.touched
+                        "
+                        >email is required</mat-error
+                      >
+                      <mat-error
+                        *ngIf="contactForm.get('email')?.hasError('email')"
+                        >Please enter correct email format</mat-error
+                      >
+                    </div>
+                  </div>
+                  <div formArrayName="mediums">
+                    <div
+                      *ngFor="
+                        let medium of mediumsArray.controls;
+                        let phoneIndex = index
+                      "
+                    >
+                      <div [formGroupName]="phoneIndex">
+                        <div class="row mt-4">
+                          <label
+                            for="inputEmail3"
+                            class="col-sm-2 col-form-label"
+                            >Phone:</label
+                          >
+                          <div class="col-sm-4 pe-0 ps-3">
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              formControlName="country_code"
+                            >
+                              <option selected>Select</option>
+                              <option value="1">+91</option>
+                              <option value="2">+27</option>
+                            </select>
+                            <mat-error
+                              *ngIf="
+                                mediumsArray.controls[phoneIndex]
+                                  .get('country_code')
+                                  ?.hasError('required') &&
+                                mediumsArray.controls[phoneIndex].get(
+                                  'country_code'
+                                )?.touched
+                              "
+                            >
+                              country code is required
+                            </mat-error>
+                          </div>
+                          <div class="col-sm-4">
+                            <input
+                              formControlName="phone"
+                              type="text"
+                              class="form-control"
+                              placeholder="Number"
+                            />
+                            <mat-error
+                              *ngIf="
+                                mediumsArray.controls[phoneIndex]
+                                  .get('phone')
+                                  ?.hasError('required') &&
+                                mediumsArray.controls[phoneIndex].get('phone')
+                                  ?.touched
+                              "
+                            >
+                              Phone number is required
+                            </mat-error>
+                          </div>
+                          <div class="col-sm-1" *ngIf="phoneIndex > 0">
+                            <i-feather
+                              name="trash-2"
+                              (click)="removeMedium(phoneIndex)"
+                            ></i-feather>
+                          </div>
+                          <mat-error
+                            *ngIf="
+                              contactForm.get('phone')?.hasError('required') &&
+                              contactForm.get('phone')?.touched
+                            "
+                            >phone number is required</mat-error
+                          >
+                        </div>
+                        <div formArrayName="address">
+                          <div
+                            *ngFor="
+                              let address of employeeAddress(phoneIndex)
+                                .controls;
+                              let addressIndex = index
+                            "
+                          >
+                            <div [formGroupName]="addressIndex">
+                              <div class="row mt-4">
+                                <div class="col-sm-2">
+                                  <label
+                                    for="inputEmail3"
+                                    class="col-sm-2 col-form-label"
+                                    >Address:</label
+                                  >
+                                </div>
+                                <div class="col-sm-8">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="address"
+                                  />
+                                </div>
+                                <div class="col-sm-2">
+                                  <i-feather
+                                    name="trash-2"
+                                    (click)="
+                                      removeEmployeeAddress(
+                                        phoneIndex,
+                                        addressIndex
+                                      )
+                                    "
+                                  ></i-feather>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                          class="mt-4"
+                        >
+                          <svg
+                            (click)="addEmployeeAddress(phoneIndex)"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            class="main-grid-item-icon"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" x2="12" y1="8" y2="16" />
+                            <line x1="8" x2="16" y1="12" y2="12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-link"
+                      (click)="addMedium()"
+                    >
+                      + Add Another Medium
+                    </button>
+                  </div>
+
+                  <div class="row mt-4 ms-6"></div>
+                  <div class="row mb-3 mt-5">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label"
+                      >Role(s):</label
+                    >
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        formControlName="role"
+                      >
+                        <option selected>select</option>
+                        <option *ngFor="let role of uniqueRoles" [value]="role">
+                          {{ role }}
+                        </option>
+                      </select>
+                      <mat-error
+                        *ngIf="
+                          contactForm.get('role')?.hasError('required') &&
+                          contactForm.get('role')?.touched
+                        "
+                        >Role is required</mat-error
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label"
+                      >Additional Role:</label
+                    >
+                    <div class="col-sm-8">
+                      <input
+                        formControlName="additionalRole"
+                        type="email"
+                        class="form-control"
+                        placeholder="Select Organization"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label"
+                      ><b>Remarks:</b></label
+                    >
+                    <textarea
+                      formControlName="remarks"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Add Details"
+                    ></textarea>
+                    <mat-error
+                      *ngIf="
+                        contactForm.get('remarks')?.hasError('required') &&
+                        contactForm.get('remarks')?.touched
+                      "
+                      >Remark is required</mat-error
+                    >
+                  </div>
+                  <div class="me-2">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary me-2"
+                      (click)="cancel()"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary me-2"
+                      (click)="clearInfo()"
+                    >
+                      Clear Info
+                    </button>
+                    <button
+                      *ngIf="editMode === false"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      (click)="save()"
+                    >
+                      Save
+                    </button>
+                    <button
+                      *ngIf="editMode === true"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      (click)="editForm()"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-process></app-process> -->

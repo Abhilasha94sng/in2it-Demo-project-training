@@ -1,0 +1,283 @@
+<div class="container-fluid">
+
+  <h5 class="mt-3">Sales Ticket Per Owner</h5>
+ 
+    <div class="row" id="slider">
+      <div id="chartdiv" style="width: 100%; height: 500px">
+      <button  class="control_next" id="popAndUnshiftButton"><i-feather name="chevron-right"></i-feather></button>
+      <button  class="control_prev"  id="pushAndShiftButton"> <i-feather name="chevron-left"></i-feather>  </button>
+
+  </div>
+  </div>
+
+  <hr />
+
+  <div class="row" style="padding: 0px">
+    <div class="col-sm" style="padding: 0px">
+      <div class="card mb-3" style="width: 33rem; height: 20rem">
+        <div class="card-body">
+          <h5 class="card-title">Via Source</h5>
+          <div id="piechartdiv" style="width: 100%; height: 20rem"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="card" style="width: 33rem; height: 20rem; padding: 0px">
+            <div class="card-body">
+              <h5 class="card-title">Certainty</h5>
+              <div
+                id="horizotalchartdiv"
+                style="width: 25rem; height: 200px"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm container-fluid"
+      style="overflow-x: auto; overflow-y: auto; padding: 0px">
+      <table class="table">
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+          <th>Points</th>
+        </tr>
+        <tr>
+          <td>Jill</td>
+          <td>Smith</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td>Eve</td>
+          <td>Jackson</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+        </tr>
+        <tr>
+          <td>Adam</td>
+          <td>Johnson</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+        </tr>
+        <tr>
+          <td>Jill</td>
+          <td>Smith</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td>Eve</td>
+          <td>Jackson</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+        </tr>
+        <tr>
+          <td>Adam</td>
+          <td>Johnson</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+        </tr>
+
+        <tr>
+          <td>Jill</td>
+          <td>Smith</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td>Eve</td>
+          <td>Jackson</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+        </tr>
+        <tr>
+          <td>Adam</td>
+          <td>Johnson</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+        </tr>
+        <tr>
+          <td>Jill</td>
+          <td>Smith</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td>Eve</td>
+          <td>Jackson</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+          <td>94</td>
+        </tr>
+        <tr>
+          <td>Adam</td>
+          <td>Johnson</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+          <td>67</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm" style="padding: 0px">
+      <div class="card mb-3" style="width: 33rem; height: 20rem">
+        <div class="card-body">
+          <h5 class="card-title">Sales Funnel</h5>
+          <div id="funnelchartdiv" style="width: 100%; height: 200px"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="card" style="width: 33rem; height: 20rem">
+            <div class="card-body">
+              <h5 class="card-title">Sales Request Per Variant</h5>
+              <div id="piechartdiv2" style="width: 100%; height: 250px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

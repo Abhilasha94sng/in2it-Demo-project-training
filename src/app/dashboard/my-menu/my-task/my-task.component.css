@@ -1,0 +1,18 @@
+h6{
+    font-size: medium;
+}
+
+.hide{
+    display: none;
+}
+.card{
+    cursor: pointer;
+}
+.card:hover{
+    /* border-color: rgb(55, 55, 247); */
+    border: 2px solid  rgb(55, 55, 247);
+
+}
+.card:hover svg {
+   fill: rgb(85, 85, 241);
+  }

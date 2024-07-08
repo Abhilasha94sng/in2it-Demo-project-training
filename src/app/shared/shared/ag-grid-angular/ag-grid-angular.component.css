@@ -1,0 +1,50 @@
+.hide{
+    display: none
+}
+li{
+    text-decoration: none;
+    list-style-type: none;
+}
+.eye {
+    display: inline;
+  }
+  
+  .eye-off {
+    display: inline;
+  }
+  
+  .hide {
+    display: none;
+  }
+  .container {
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 1237px; /* Adjust this as needed for your layout */
+    width: 300px;
+    background-color: white; /* Set background to white */
+    color: black; /* Set text color to black */
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    z-index: 10; /* Ensure it is above the ag-Grid */
+    border-radius: 5px; /* Optional: rounded corners */
+  }
+  
+  .overlay ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .overlay .d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .overlay .hide {
+    display: none;
+  }
