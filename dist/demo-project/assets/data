@@ -1,0 +1,297 @@
+
+
+
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MyorganizationServiceService } from '../myorganization-service.service';
+
+@Component({
+  selector: 'app-process',
+  templateUrl: './process.component.html',
+  styleUrls: ['./process.component.css']
+})
+export class ProcessComponent implements OnInit {
+
+
+    flag!: boolean
+    navs = [
+      {
+        'id': '0',
+        'organizationName': 'Organization',
+        'type': '',
+        'industry':'',
+        'onboarding': '',
+        'relatedOrgs': '',
+        'products': '',
+        'email':'',
+        'phone': '', 
+      
+          'registrationNo': '',
+          'description': '',
+          'tier': '',
+          'spoc': '',
+          'mobileno': ''
+  
+      }
+    ];
+    orgData = [
+      {
+        'id': '1',
+        'organizationName': 'In2it Technologies',
+        'type': 'Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '3',
+        'products': '0',
+        'email':'in2it@in2ittech.com',
+        'phone': '887890678', 
+        'registrationNo': 'CD-12345',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Abhishek Singh',
+          'mobileno': '+91789065678'
+        },
+  
+      {
+        'id': '2',
+        'organizationName': 'TCS',
+        'type': 'Non Customer',
+        'industry':'Software',
+        'onboarding': 'Onboarded',
+        'relatedOrgs': '3',
+        'products': '0',
+        'email':'tcs@tcs.com',
+        'phone': '887890678',
+     
+          'registrationNo': 'AB-12345',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Gautam Yadav',
+          'mobileno': '+917890656547'
+  
+      },
+      {
+        'id': '3',
+        'organizationName': 'Mahindra',
+        'type': 'Customer',
+        'industry':'Automobile',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '3',
+        'products': '5',
+        'email':'mahindra@mahindra.com',
+        'phone': '887890678',
+  
+          'registrationNo': 'AB-12345',
+          'description':'We are Automobile Compony',
+          'tier':'Private Company',
+          'spoc': 'Prashant Singh',
+          'mobileno': '+917890654567'
+  
+      },
+      {
+        'id': '4',
+        'organizationName': 'Infosys',
+        'type': 'Non Customer',
+        'industry':'Software',
+        'onboarding': 'In process',
+        'relatedOrgs': '4',
+        'products': '0',
+        'email':'infosys@iinfosys.com',
+        'phone': '887890678',
+     
+          'registrationNo': 'IN-987',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Kriti Gupta',
+          'mobileno': '+917895463456'
+    
+      },
+      {
+        'id': '5',
+        'organizationName': 'Capgemini',
+        'type': 'Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '9',
+        'products': '6',
+        'email':'capgemini@capgemini.com',
+        'phone': '887890678',
+  
+          'registrationNo': 'CAP-6789',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Varun Dhavan',
+          'mobileno': '+910987678954'
+        
+  
+      },
+      {
+        'id': '6',
+        'organizationName': 'Google',
+        'type': 'Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '3',
+        'products': '0',
+        'email':'in2it@in2ittech.com',
+        'phone': '887890678',
+  
+          'registrationNo': 'G-4567',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Shivani Rana',
+          'mobileno': '+918976342121'
+      
+  
+      },
+      {
+        'id': '7',
+        'organizationName': 'Microsoft',
+        'type': 'Non Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '3',
+        'products': '10',
+        'email':'microsoft@microsoft.com',
+        'phone': '887890678',
+     
+          'registrationNo': 'M-7654',
+          'description':'We are SoftwareCompony',
+          'tier':'Private Company',
+          'spoc': 'Ankita Sharma',
+          'mobileno': '+919654321234'
+        
+  
+      },
+      {
+        'id': '8',
+        'organizationName': 'Amazon',
+        'type': 'Non Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '3',
+        'products': '0',
+        'email':'amazon@amazon.com',
+        'phone': '887890678',
+    
+          'registrationNo': 'Amazon-09',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Viajy Singh',
+          'mobileno': '+918809767890'
+        
+  
+      },
+      {
+        'id': '9',
+        'organizationName': 'Teachmint',
+        'type': 'Customer',
+        'industry':'Software',
+        'onboarding': '	Onboarded',
+        'relatedOrgs': '2',
+        'products': '2',
+        'email':'teachmin@teachmin.com',
+        'phone': '887890678',
+          'registrationNo': 'T-076',
+          'description':'We are Software Compony',
+          'tier':'Private Company',
+          'spoc': 'Aniket Ganguli',
+          'mobileno': '+916546789034'
+      
+      },
+    ]
+    active!: string;
+    activeTabs!: string;
+    activeTabId: string = '';
+    organizationTabSelected: boolean = false;
+    selectedOrganization: any;
+  
+    // @Output() organizationSelected = new EventEmitter<Organization>();
+   
+    close(event: MouseEvent, toRemove: string) {
+      if (toRemove !== '0') {
+        this.navs = this.navs.filter((item) => item.id !== toRemove);
+      }
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+    add(org: any ,event:MouseEvent) {
+      const existingOrg = this.navs.find(item => item.id === org.id);
+      if (!existingOrg) {
+        this.navs.push(org);
+        localStorage.setItem('navs', JSON.stringify(this.navs));
+      }
+      console.log(this.navs);
+      // this.organizationSelected.emit(org);
+      console.log('Send Data', org);
+    }
+    icons = [
+      { name: 'plus-circle' },
+      { name: 'briefcase' },
+      { name: 'share-2' },
+      { name: 'download' },
+      { name: 'search'}
+  
+  
+  
+  
+  
+  
+  
+    ]
+    showTable:any;
+    organizationType: string = 'All';
+    type: string = 'Customer'
+  
+  // getAlldata(){
+  //   this.showTable=this.orgData
+  // }
+  
+    constructor(public myOrganizationService: MyorganizationServiceService) { }
+  
+    ngOnInit(): void {
+      console.log(this.navs);
+      
+      
+      this.filterOrgData('All');
+      this.navs = JSON.parse(localStorage.getItem('navs')?? 'null') || [
+        {
+          'id': '0',
+          'organizationName': 'Organization',
+          'type': '',
+          'industry':'',
+          'onboarding': '',
+          'relatedOrgs': '',
+          'products': '',
+          'email':'',
+          'phone': '', 
+          'details': {
+            'registrationNo': '',
+            'description': '',
+            'tier': '',
+            'spoc': '',
+            'email': '',
+            'mobileno': ''
+          }
+        }
+      ];
+     
+  
+    }
+  
+    filterOrgData(filter:any){    
+      this.organizationType = filter;
+      if(filter==='All'){
+        this.showTable=this.orgData
+      }
+      else{
+        this.showTable= this.orgData.filter(data => data.type === filter)
+        
+      }   
+    }
+    // selectOrganization(organization: any) {
+    //   this.myOrganizationService.setAddedOrgDetails(organization);
+    // }
+  
+  
+  }
+  
