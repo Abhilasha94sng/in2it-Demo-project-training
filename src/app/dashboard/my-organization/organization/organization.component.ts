@@ -101,6 +101,7 @@ export class OrganizationComponent implements OnInit {
 
 
   checkExisitingTab(id: number) {
+    
     this.flag = false;
     this.navs.some((data) => {
       if (data.id === id) {
@@ -121,9 +122,7 @@ export class OrganizationComponent implements OnInit {
     }
   }
   getAllTable() {
-    this.rowData = this.orgService.orgData;
-    console.log("this.showTable", this.rowData);
-    
+    this.rowData = this.orgService.orgData;    
   }
  
   filterOrgData(filter: any) {

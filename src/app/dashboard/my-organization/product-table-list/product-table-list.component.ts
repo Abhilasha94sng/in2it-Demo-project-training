@@ -38,7 +38,7 @@ export class ProductTableListComponent implements OnInit {
   ];
   rowData!: any[]
   productList:any
-  selectedData: any[] = [];
+  selectedData: any[] = [] ;
   showCard: boolean = false
   ngOnInit(): void { 
     this.orgService.getSelectedData().subscribe(
@@ -74,7 +74,7 @@ export class ProductTableListComponent implements OnInit {
     }; 
   }
 renderGridData() {
-  if (this.rowData && this.selectedData) {
+  if (Array.isArray(this.rowData) && Array.isArray(this.selectedData) && this.selectedData.length > 0) {
     this.rowData = [...this.rowData, ...this.selectedData];
     if (this.gridApi) {
       this.gridApi.setRowData(this.rowData);
@@ -94,8 +94,19 @@ edit(rowId: any) {
   this.updateAllRowsEditingState();
 }
 
-updateAllRowsEditingState() {
-  this.rowData.forEach(row => {
+// updateAllRowsEditingState() { 
+//   this.rowData.forEach(row => {    
+//     row.isEditing = this.editingRowIds.includes(row.table_id.value);
+//   });
+  
+//   this.refreshGrid();
+// }
+updateAllRowsEditingState() { 
+  if (!this.rowData) {
+    return;
+  }
+
+  this.rowData.forEach(row => {    
     row.isEditing = this.editingRowIds.includes(row.table_id.value);
   });
   
@@ -107,16 +118,16 @@ refreshGrid() {
     this.gridApi.setRowData(this.rowData);
   }
 }
-save(rowId: any) {
+save(rowId: any) {  
   this.editingRowIds = this.editingRowIds.filter(id => id !== rowId);
   this.updateAllRowsEditingState();
-  this.gridOption.api?.refreshCells();
+  // this.gridOption.api?.refreshCells();
 }
 cancel(rowId: any){
  
   this.editingRowIds = this.editingRowIds.filter(id => id !== rowId);
   this.updateAllRowsEditingState();
-  this.gridOption.api?.refreshCells();
+  // this.gridOption.api?.refreshCells();
 }
 delete(params: any): void {
   if (confirm('Are you sure you want to delete this data?')) {    
@@ -165,7 +176,6 @@ addRow() {
     updated_on: { value: '26/08/2023', is_edit: false, type: 'datetime' }
   }
   this.rowData.push(newItem);
-  console.log(this.rowData);
   
   
   if (this.gridOption.api) {

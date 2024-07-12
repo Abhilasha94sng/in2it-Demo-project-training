@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MyorganizationServiceService } from '../myorganization-service.service';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { CustomCellComponent } from 'src/app/shared/shared/custom-cell/custom-ce
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
 })
+
 export class ContactComponent implements OnInit {
   active: number = 1;
   contactType: string = 'All';
@@ -85,25 +86,17 @@ export class ContactComponent implements OnInit {
   constructor(
     public orgService: MyorganizationServiceService,
     private router: Router,
-    private fb: FormBuilder
-  ) {}
+    public fb: FormBuilder
+  ) {
+    this.contactForm = this.fb.group({
+      mediums: this.fb.array([]),
+    });
+  }
   tableData!: any;
 
   globalContactIndex = 0;
   ngOnInit(): void {
-    this.count = this.calculateTotalContacts();
-    // this.orgService.orgData.forEach(org => {
-    //   org.contact.forEach(contact => {
-    //     const contactWithOrgName = {
-    //       id: org.id,
-    //       organizationName: org.organizationName,
-    //       ...contact
-    //     };
-
-    //     this.rowData.push(contactWithOrgName);
-    //   });
-    // });
-
+    this.count = this.calculateTotalContacts()
     this.rowData = [];
 
     this.orgService.orgData.forEach((org) => {
@@ -116,12 +109,14 @@ export class ContactComponent implements OnInit {
         };
         // console.log(contactWithOrgName)
         this.rowData.push(contactWithOrgName);
+       
+        
 
         this.globalContactIndex++;
       });
+   
     });
-
-    this.filteredTable = this.orgService.orgData;
+    this.filteredTable = this.orgService.orgData;    
     this.showTable = this.orgService.orgData;
     this.contactForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(12)]],
@@ -193,6 +188,8 @@ export class ContactComponent implements OnInit {
             id: org.id,
           };
           this.rowData.push(contactWithOrgName);
+          console.log(this.rowData);
+          
         });
       }
     });
@@ -250,7 +247,7 @@ export class ContactComponent implements OnInit {
         name: this.formData.firstName + ' ' + this.formData.lastName,
         role: this.formData.role,
         email: this.formData.email,
-        phone: this.formData.mediums[0].phone,
+        phone: this.formData.mediums.length > 0 ? this.formData.mediums[0].phone : '', 
         organizationName: this.formData.organizationName
       };
   
@@ -284,9 +281,10 @@ export class ContactComponent implements OnInit {
       } else {
         console.log('Organization not found');
       }
-    } else {
-      console.log('Form is invalid');
-    }
+    } 
+    // else {
+    //   console.log('Form is invalid');
+    // }
   }
   
   openCard() {
@@ -306,6 +304,7 @@ export class ContactComponent implements OnInit {
     });
   }
   openNameCard(index: number, contactDetail: any) {
+    
     this.editMode = true;
     this.editIndex = index;
     this.selectedContact = contactDetail;
@@ -329,6 +328,8 @@ export class ContactComponent implements OnInit {
         role: this.selectedContact[0].role,
         email: this.selectedContact[0].email,
       });
+      console.log(this.contactForm);
+      
       const mediumsArray = this.contactForm.get('mediums') as FormArray;
       if (mediumsArray.length > 0) {
         const firstMediumGroup = mediumsArray.at(0) as FormGroup;
@@ -353,13 +354,9 @@ export class ContactComponent implements OnInit {
     this.showCard = false;
   }
   editForm() {
-    console.log('gsg');
-    console.log(this.contactForm);
     const mediumsArray = this.contactForm.get('mediums') as FormArray;
     const phone = mediumsArray.at(0).get('phone')?.value;
     if (this.contactForm.valid && this.selectedRows) {
-      console.log(this.contactForm);
-
       const updatedContact = {
         ...this.selectedRows[0],
         organizationName: this.selectedRows[0].organizationName || this.contactForm.value.organizationName,
@@ -368,23 +365,14 @@ export class ContactComponent implements OnInit {
         email: this.contactForm.value.email,
         phone: phone,
       };
-      console.log(this.selectedContact);
       this.contactForm.reset();
       this.contactForm.enable();
-      // this.showCard = false;
-      // this.viewForm = false;
-
       const index = this.rowData.findIndex(
         (contact) => contact.contactIndex === this.selectedRows[0].contactIndex
       );
-      console.log('Index:', index);
-
       if (index > -1) {
         this.rowData[index] = updatedContact;
-        console.log(updatedContact);
-
         this.selectedRows = updatedContact;
-        console.log('Selected Contact:', this.selectedRows);
         this.rowData = [...this.rowData];
       }
     }
@@ -412,34 +400,31 @@ export class ContactComponent implements OnInit {
   //   this.viewCard = true;
   //   this.viewForm = false;
   // }
-  selectCheckbox(org: any, index: number) {
-    this.checkboxData = org;
-    this.checkboxContact = index;
-    org.contact[index].selected = !org.contact[index].selected;
-    if (org.contact[index].selected) {
-      this.checkedContact = org.contact[index];
-      this.checkedContact.organizationName = org.organizationName;
-      this.checkedDataArray.push(this.checkedContact);
-      this.arrayData = this.checkedDataArray[0];
-    } else {
-      const uncheckedIndex = this.checkedDataArray.findIndex(
-        (contact) => contact === org.contact[index]
-      );
-      if (uncheckedIndex !== -1) {
-        this.checkedDataArray.splice(uncheckedIndex, 1);
-      }
-      this.arrayData = this.checkedDataArray[0];
-    }
-    this.updateCount();
-  }
+  // selectCheckbox(org: any, index: number) {
+  //   this.checkboxData = org;
+  //   this.checkboxContact = index;
+  //   org.contact[index].selected = !org.contact[index].selected;
+  //   if (org.contact[index].selected) {
+  //     this.checkedContact = org.contact[index];
+  //     this.checkedContact.organizationName = org.organizationName;
+  //     this.checkedDataArray.push(this.checkedContact);
+  //     this.arrayData = this.checkedDataArray[0];
+  //   } else {
+  //     const uncheckedIndex = this.checkedDataArray.findIndex(
+  //       (contact) => contact === org.contact[index]
+  //     );
+  //     if (uncheckedIndex !== -1) {
+  //       this.checkedDataArray.splice(uncheckedIndex, 1);
+  //     }
+  //     this.arrayData = this.checkedDataArray[0];
+  //   }
+  //   this.updateCount();
+  // }
   updateCount() {
     this.rowData = this.rowData.filter(
       (row) => !this.selectedRows.includes(row)
     );
     this.count = this.rowData.length;
-    console.log(this.count);
-
-    console.log('Count of selected contacts:', this.count);
   }
   updateOrgContactCount(): void {
     this.orgService.orgData.forEach((org) => {
@@ -458,16 +443,13 @@ export class ContactComponent implements OnInit {
     this.rowData = this.rowData.filter(
       (row) => !this.selectedRows.includes(row)
     );
-    console.log('Updated rowData:', this.rowData);
     this.updateCount();
-    // this.updateOrgContactCount()
+    this.updateOrgContactCount()
   }
   selectCount: any;
-  selectedRow(event: any) {
-    console.log(event.length);
+  selectedRow(event: any) {    
     this.selectCount = event.length;
     this.selectedRows = event;
-    //  this.editContact();
   }
   uniqueRoles: string[] = [];
 
@@ -505,15 +487,12 @@ export class ContactComponent implements OnInit {
   }
 
   onCellClicked(event: any) {
-    console.log('fve');
 
     const clickedContact = event.data;
     const contactIndex = clickedContact.contactIndex;
-    console.log(contactIndex);
     if (event.colDef.field === 'organizationName') {
       this.add(event.data, event.data.id);
-    } else if (event.colDef.field === 'name') {
-      console.log('fgh');
+    } else if (event.colDef.field === 'name') {;
       this.openNameCard(contactIndex, clickedContact);
     }
   }

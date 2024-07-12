@@ -461,8 +461,8 @@ export class MyorganizationServiceService {
           "phone": "+1 (555) 345-6789"
         }
       ]
-    },
-  ];
+    } 
+  ] 
 
 
   private selectedDataSubject = new BehaviorSubject<any[]>([]);

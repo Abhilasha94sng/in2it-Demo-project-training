@@ -18,9 +18,7 @@ export class ChildOrganizationComponent implements OnInit {
   isActive: string = 'generalOverview'; // Initialize to the first tab
   showCard: boolean = false;
   selectedContact:any
-  showDiv(tab: string) {
-    this.isActive = tab;
-  }
+
   @Input() organization!: any;
   gridOption!: GridOptions
   public orgData: any[] = [];
@@ -55,7 +53,9 @@ export class ChildOrganizationComponent implements OnInit {
 
 }
 
-
+showDiv(tab: string) {
+  this.isActive = tab;
+}
   toggleCard(contact:any) {
     
     this.selectedContact = contact
@@ -71,11 +71,11 @@ close(){
   this.showCard = false
 }
 
-onCellClicked(event: any) {
-  console.log(event);  
-  if (event.colDef.field === 'name') {
-    this.openCard(event.data)
-  }
-}
+// onCellClicked(event: any) {
+//   console.log(event);  
+//   if (event.colDef.field === 'name') {
+//     this.openCard(event.data)
+//   }
+// }
 
 }

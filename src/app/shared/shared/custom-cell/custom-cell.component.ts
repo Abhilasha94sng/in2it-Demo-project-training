@@ -49,6 +49,8 @@ export class CustomCellComponent implements OnInit, ICellRendererAngularComp {
     this.params.context.parentComponent.openCard(this.params.data)
   }
   cellActions(){
+    console.log(this.params.data);
+    
      if(this.fieldName=='organizationName'){
       this.params.context.parentComponent.add(this.params.data,this.params.data.id)
      }else if(this.fieldName=='name'){
